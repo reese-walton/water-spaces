@@ -2,19 +2,20 @@
 
 namespace ProcessSPACE.Core.Models;
 
-public class Connection : IEdge<Process>
+public readonly record struct ConnectionId(int Value){
+    public static implicit operator int(ConnectionId p) => p.Value;
+    public static implicit operator ConnectionId(int id) => new(id);
+}
+
+public class Connection
 {
-    public int Id { get; init;}
+    public ConnectionId Id { get; init;}
 
-    public Process Upstream {get; init;}
+    public ProcessId Upstream {get; init;}
     
-    public Process Downstream {get; init;}
+    public ProcessId Downstream {get; init;}
 
-    public Process Source => Upstream;
-
-    public Process Target => Downstream;
-
-    internal Connection(int id, Process upstream, Process downstream)
+    internal Connection(ConnectionId id, ProcessId upstream, ProcessId downstream)
     {
         Id = id;
         Upstream = upstream;
