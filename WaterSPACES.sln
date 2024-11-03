@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSPACE.Core", "ProcessSPACE.Core\ProcessSPACE.Core.csproj", "{B949AC4D-6179-45AF-BD0E-AFCA99DBCC0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSPACE.CLI", "ProcessSPACE.CLI\ProcessSPACE.CLI.csproj", "{C8E00B41-870B-4812-8E1D-B4B64FFB3F4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSPACE.Core.Test", "ProcessSPACE.Core.Test\ProcessSPACE.Core.Test.csproj", "{D314AEB2-F3A5-4902-9C10-4EDB2D58D5DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{B949AC4D-6179-45AF-BD0E-AFCA99DBCC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B949AC4D-6179-45AF-BD0E-AFCA99DBCC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B949AC4D-6179-45AF-BD0E-AFCA99DBCC0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8E00B41-870B-4812-8E1D-B4B64FFB3F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8E00B41-870B-4812-8E1D-B4B64FFB3F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8E00B41-870B-4812-8E1D-B4B64FFB3F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8E00B41-870B-4812-8E1D-B4B64FFB3F4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D314AEB2-F3A5-4902-9C10-4EDB2D58D5DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D314AEB2-F3A5-4902-9C10-4EDB2D58D5DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D314AEB2-F3A5-4902-9C10-4EDB2D58D5DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D314AEB2-F3A5-4902-9C10-4EDB2D58D5DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

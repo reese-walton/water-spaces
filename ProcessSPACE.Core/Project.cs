@@ -1,6 +1,4 @@
-﻿using QuikGraph;
-
-namespace ProcessSPACE.Core;
+﻿namespace ProcessSPACE.Core;
 
 public class Project
 {

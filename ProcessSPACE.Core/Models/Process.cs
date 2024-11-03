@@ -1,6 +1,7 @@
 namespace ProcessSPACE.Core.Models;
 
-public readonly record struct ProcessId(int Value) {
+public readonly record struct ProcessId(int Value)
+{
     public static implicit operator int(ProcessId p) => p.Value;
     public static implicit operator ProcessId(int id) => new(id);
 }
@@ -11,10 +12,11 @@ public class Process
 
     public string Name { get; set; } = string.Empty;
 
-    public ProcessImpl Impl { get; internal init; }
+    public ProcessImpl ProcessSolver { get; set; }
 
-    internal Process(int id, ProcessImpl impl) {
+    internal Process(int id, ProcessImpl process)
+    {
         Id = id;
-        Impl = impl;
+        ProcessSolver = process;
     }
 }
