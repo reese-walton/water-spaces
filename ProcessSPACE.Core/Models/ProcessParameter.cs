@@ -4,10 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProcessSPACE.Core.Models;
+using static ProcessSPACE.Core.Models.BaseParameter;
+using static ProcessSPACE.Core.Models.ProcessParameter;
 
-public class ProcessParameter
+namespace ProcessSPACE.Core.Models;
+public struct ProcessLoadings
 {
+    readonly Solver Owner;
+    
+    readonly Solver.RouterIndex Router;
+
+    internal ProcessLoadings(Solver solver, Solver.RouterIndex router) {
+        Owner = solver;
+        Router = router;
+    }
 }
 
 public enum BaseParameter
@@ -78,22 +88,22 @@ public enum BaseParameter
     InpAlk,
 
     /// <summary>
-    /// The number of base parameters modeled
+    /// Any other input parameter
     /// </summary>
-    InpParameterCount
+    InpOther
 }
 
-public enum Parameter
+public enum ProcessParameter
 {
     /// <summary>
     /// Volatile suspended solids
     /// </summary>
-    SSVol = 1 << BaseParameter.InpSSVol,
+    SSVol = 1 << InpSSVol,
 
     /// <summary>
     /// Inert suspended solids
     /// </summary>
-    SSInt = 1 << BaseParameter.InpSSInt,
+    SSInt = 1 << InpSSInt,
 
     /// <summary>
     /// Total suspended solids
@@ -103,12 +113,12 @@ public enum Parameter
     /// <summary>
     /// Soluble BOD
     /// </summary>
-    BODSol = 1 << BaseParameter.InpBODSol,
+    BODSol = 1 << InpBODSol,
 
     /// <summary>
     /// Particulate BOD
     /// </summary>
-    BODPrt = 1 << BaseParameter.InpBODPrt,
+    BODPrt = 1 << InpBODPrt,
     
     /// <summary>
     /// Total BOD
@@ -118,17 +128,17 @@ public enum Parameter
     /// <summary>
     /// Ammonia nitrogen
     /// </summary>
-    NAmm = 1 << BaseParameter.InpNAmm,
+    NAmm = 1 << InpNAmm,
 
     /// <summary>
     /// Soluble organic nitrogen
     /// </summary>
-    NOrgSol = 1 << BaseParameter.InpNOrgSol,
+    NOrgSol = 1 << InpNOrgSol,
 
     /// <summary>
     /// Particulate organic nitrogen
     /// </summary>
-    NOrgPrt = 1 << BaseParameter.InpNOrgPrt,
+    NOrgPrt = 1 << InpNOrgPrt,
 
     /// <summary>
     /// Total organic nitrogen
@@ -143,7 +153,7 @@ public enum Parameter
     /// <summary>
     /// Oxidized nitrogen (NO2 and NO3)
     /// </summary>
-    NOxd = 1 << BaseParameter.InpNOxd,
+    NOxd = 1 << InpNOxd,
 
     /// <summary>
     /// Total nitrogen
@@ -153,12 +163,12 @@ public enum Parameter
     /// <summary>
     /// Organic soluble phosphorus
     /// </summary>
-    POrgSol = 1 << BaseParameter.InpPOrgSol,
+    POrgSol = 1 << InpPOrgSol,
 
     /// <summary>
     /// Organic particulate phosphorus
     /// </summary>
-    POrgPrt = 1 << BaseParameter.InpPOrgPrt,
+    POrgPrt = 1 << InpPOrgPrt,
 
     /// <summary>
     /// Total organic phosphorus
@@ -168,12 +178,12 @@ public enum Parameter
     /// <summary>
     /// Chemical phosphorus
     /// </summary>
-    PChm = 1 << BaseParameter.InpPChm,
+    PChm = 1 << InpPChm,
 
     /// <summary>
     /// Orthophosphate
     /// </summary>
-    POrt = 1 << BaseParameter.InpPOrt,
+    POrt = 1 << InpPOrt,
 
     /// <summary>
     /// Total phosphorus
@@ -183,10 +193,17 @@ public enum Parameter
     /// <summary>
     /// Alkalinity
     /// </summary>
-    Alk = 1 << BaseParameter.InpAlk,
+    Alk = 1 << InpAlk,
 
     /// <summary>
     /// Any other constituent
     /// </summary>
-    Other = 1 << BaseParameter.InpParameterCount,
+    Other = 1 << InpOther,
+}
+
+public static class ParameterExtensions
+{
+    public const int NumBaseParameters = (int) InpOther + 1;
+
+    public const int NumProcessParameters = 22;
 }
