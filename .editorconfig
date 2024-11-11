@@ -102,7 +102,7 @@ csharp_style_var_when_type_is_apparent = false:silent
 
 # Expression-bodied members
 csharp_style_expression_bodied_accessors = true:silent
-csharp_style_expression_bodied_constructors = true:suggestion
+csharp_style_expression_bodied_constructors = true:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = true:silent

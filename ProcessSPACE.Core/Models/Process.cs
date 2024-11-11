@@ -12,9 +12,9 @@ public class Process
 
     public string Name { get; set; } = string.Empty;
 
-    public ProcessImpl ProcessSolver { get; set; }
+    public IProcessImpl ProcessSolver { get; set; }
 
-    internal Process(int id, ProcessImpl process)
+    internal Process(int id, IProcessImpl process)
     {
         Id = id;
         ProcessSolver = process;

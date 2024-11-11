@@ -3,22 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MathNet.Numerics;
 using static ProcessSPACE.Core.Models.BaseParameter;
 using static ProcessSPACE.Core.Models.ProcessParameter;
 
 namespace ProcessSPACE.Core.Models;
-public struct ProcessLoadings
-{
-    readonly Solver Owner;
-    
-    readonly Solver.RouterIndex Router;
-
-    internal ProcessLoadings(Solver solver, Solver.RouterIndex router) {
-        Owner = solver;
-        Router = router;
-    }
-}
 
 public enum BaseParameter
 {
@@ -109,7 +98,7 @@ public enum ProcessParameter
     /// Total suspended solids
     /// </summary>
     SSTot = SSVol | SSInt,
-    
+
     /// <summary>
     /// Soluble BOD
     /// </summary>
@@ -119,7 +108,7 @@ public enum ProcessParameter
     /// Particulate BOD
     /// </summary>
     BODPrt = 1 << InpBODPrt,
-    
+
     /// <summary>
     /// Total BOD
     /// </summary>
@@ -203,7 +192,30 @@ public enum ProcessParameter
 
 public static class ParameterExtensions
 {
-    public const int NumBaseParameters = (int) InpOther + 1;
+    public const int NumBaseParameters = (int)InpOther + 1;
 
     public const int NumProcessParameters = 22;
+
+    public static int AsOffset(this BaseParameter parameter) => (int)parameter;
+
+    public static BaseParameter[] ToBaseParameters(this ProcessParameter parameter)
+    {
+        int number = (int)parameter;
+        List<BaseParameter> bases = new();
+        for (int bp = 0; bp < NumBaseParameters; bp++)
+        {
+            if (number == 0)
+            {
+                break;
+            }
+            if ((number & 1) == 1)
+            {
+                bases.Add((BaseParameter)bp);
+            }
+            number >>= 1;
+        }
+
+        return bases.ToArray();
+    }
+
 }

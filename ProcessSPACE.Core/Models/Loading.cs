@@ -246,7 +246,7 @@ public record ProcessLoad
     protected const double MAX_VALUE = Single.MaxValue;
 
     /// <summary>
-    /// A new <see cref="ProcessLoading"/> with all constituents set to a <see cref="MIN_VALUE">MIN_VALUE</see>.
+    /// A new <see cref="ProcessRouterHandle"/> with all constituents set to a <see cref="MIN_VALUE">MIN_VALUE</see>.
     /// </summary>
     /// <returns></returns>
     public static ProcessLoad Empty() => new()
