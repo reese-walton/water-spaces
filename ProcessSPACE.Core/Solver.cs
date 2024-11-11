@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Metadata;
 using MathNet.Numerics.LinearAlgebra;
 using ProcessSPACE.Core.Models;
@@ -18,8 +19,8 @@ internal record struct ParameterIndex(RouterIndex Index, BaseParameter Parameter
 
 public class Solver
 {
-    private readonly Matrix<double> HydraulicsMatrix;
-    private readonly Matrix<double> ProcessMatrix;
+    private Matrix<double> HydraulicsMatrix;
+    private Matrix<double> ProcessMatrix;
 
     private readonly HashSet<RouterIndex> Routers = new();
 
@@ -46,43 +47,43 @@ public class Solver
 
     internal void DefineParameter(ProcessRouterHandle handle, BaseParameter parameter, ParameterDefinition definition)
     {
-        throw new NotImplementedException();
+        EnsureSize(handle.Router.Value);
+        int index = handle.Router.Value * NumBaseParameters + parameter.AsOffset();
+        ProcessMatrix.SetRow(index, definition.Parameters);
+    }
+
+    private void EnsureSize(int linkCount)
+    {
+        if (HydraulicsMatrix.RowCount < linkCount || ProcessMatrix.RowCount < linkCount * NumBaseParameters)
+        {
+            linkCount = Math.Max(linkCount, Routers.Count);
+            HydraulicsMatrix = HydraulicsMatrix.Resize(linkCount, linkCount);
+            int paramCount = linkCount * NumBaseParameters;
+            ProcessMatrix = ProcessMatrix.Resize(paramCount, paramCount);
+        }
     }
 }
 
 public class ParameterDefinition
 {
-    readonly Dictionary<ParameterIndex, double> Parameters;
+    readonly internal Vector<double> Parameters;
 
-    private ParameterDefinition(Dictionary<ParameterIndex, double> parameters) => this.Parameters = parameters;
+    private ParameterDefinition(Vector<double> parameters) => this.Parameters = parameters;
 
-    internal ParameterDefinition(ParameterIndex index, double factor = 0) => Parameters = new() {
-            { index, factor }
-        };
+    internal ParameterDefinition(ParameterIndex index, double factor = 0)
+    {
+        Parameters = Vector<double>.Build.Sparse();
+        Parameters[index.Index.Value * NumBaseParameters + index.Parameter.AsOffset()] = factor;
+    }
 
     public static ParameterDefinition operator +(ParameterDefinition left, ParameterDefinition right)
     {
-        IEnumerable<ParameterIndex> keys = left.Parameters.Keys.Union(right.Parameters.Keys);
-        Dictionary<ParameterIndex, double> newParams = new(keys.Count());
-        foreach (ParameterIndex key in keys)
-        {
-            left.Parameters.TryGetValue(key, out double leftVal);
-            right.Parameters.TryGetValue(key, out double rightVal);
-            newParams.Add(key, leftVal + rightVal);
-        }
-
-        return new ParameterDefinition(newParams);
+        return new ParameterDefinition(left.Parameters + right.Parameters);
     }
 
     public static ParameterDefinition operator *(double factor, ParameterDefinition parameter)
     {
-        Dictionary<ParameterIndex, double> newDict = new(parameter.Parameters);
-
-        foreach (ParameterIndex key in newDict.Keys)
-        {
-            newDict[key] *= factor;
-        }
-        return new ParameterDefinition(newDict);
+        return new ParameterDefinition(factor * parameter.Parameters);
     }
     public static ParameterDefinition operator *(ParameterDefinition parameter, double factor) => factor * parameter;
 }
